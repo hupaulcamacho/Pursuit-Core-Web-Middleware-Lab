@@ -15,10 +15,12 @@ Create an array or an object and fill it with strings representing animal specie
 When you query your `localhost` app at the route `/animal`, appending an animal's name (e.g. `localhost:3000/animal/lion`), you should return a boolean as a response - `true` or `false` depending on whether their second parameter (`lion`) can be found in your animal list. Your response should be in this format:
 
 ```js
+
 {
   status: "success",
   message: true
 }
+
 ```
 
 Create a middleware function, `isAnimal`, to check if the requested animal is in the list and route the user's request accordingly. As your user doesn't need to update, delete, or add information, this can be a GET request.
