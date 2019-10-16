@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(cors());
 
+//----------------------------------------------------------------------------
 // Valid animal tester
 
 const isAnimal = (request, response, next) => {
@@ -46,10 +47,24 @@ const successMessage = (request, response, next) => {
 
 app.get("/animal/:search", isAnimal, successMessage);
 
-
+//----------------------------------------------------------------------------
 // Random Number Picker
+
 let numberArray = [];
 
+const checkInput = (request, response, next) => {
+    let min = request.params.min;
+    let max = request.params.max;
+
+    if (isNaN(min) || isNaN(max)) {
+        response.json({
+            status: "error",
+            message: "One of the inputs is not a valid number"
+        })
+    } else {
+        next()
+    }
+}
 
 const generateSpread = (request, response, next) => {
     let min = request.params.min;
@@ -60,7 +75,7 @@ const generateSpread = (request, response, next) => {
             message: "Starting number cannot be larger than ending number"
         })
     }
-    for(let i = parseInt(min) + 1; i < max; i++) {
+    for(let i = parseInt(min) + 1; i <= max; i++) {
         numberArray.push(i)
     }
     next()
@@ -80,6 +95,7 @@ const getRandomNumber = (request, response, next) => {
 
 app.get("/random/:min/:max", generateSpread, getRandomNumber)
 
+//---------------------------------------------------------------------------------
 
 app.listen(port, () => {
     console.log(`Middleware server is running at: ${port}`)
